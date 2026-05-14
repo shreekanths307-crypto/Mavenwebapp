@@ -1,14 +1,16 @@
 pipeline {
-    agent any  
+    agent any
 
     tools {
-        maven 'Maven'  
+        maven 'Maven'
     }
 
     stages {
+
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/shreekanths307-crypto/Mavenwebapp.git'
+                git branch: 'main',
+                url: 'https://github.com/shreekanths307-crypto/Mavenwebapp.git'
             }
         }
 
@@ -20,23 +22,19 @@ pipeline {
 
         stage('Archive') {
             steps {
-                archiveArtifacts artifacts: 'target/*.war', fingerprint: true
+                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
             }
         }
 
-        stage('Deploy') {
-            steps {
-                sh 'mvn clean package'
-            }
-        }    
     }
 
     post {
         success {
-            echo 'Build and deployment successful!'
+            echo 'Build Successful!'
         }
+
         failure {
-            echo 'Build failed!'
+            echo 'Build Failed!'
         }
     }
 }
